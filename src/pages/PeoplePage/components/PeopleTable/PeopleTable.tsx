@@ -5,6 +5,8 @@ import { SearchLink } from '../../../../components/SearchLink';
 import { useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
+const TABLE_ROWS_FOR_SORTING = ['Name', 'Sex', 'Born', 'Died'];
+
 type Props = {
   people: Person[];
 };
@@ -42,7 +44,7 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
     >
       <thead>
         <tr>
-          {['Name', 'Sex', 'Born', 'Died'].map(th => (
+          {TABLE_ROWS_FOR_SORTING.map(th => (
             <th key={th}>
               <span className="is-flex is-flex-wrap-nowrap">
                 {th}

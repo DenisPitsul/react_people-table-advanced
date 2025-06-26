@@ -9,9 +9,10 @@ export const PeoplePage: React.FC = () => {
     filteredSortedPeople,
     isLoading,
     errorMessage,
-    areThereNoPeopleFromServer,
-    areTherePeopleFromServer,
-    areThereNoPeopleMatchingTheSearchParams,
+    hasErrorMessage,
+    arePeopleLoaded,
+    areNoPeopleFromServer,
+    areNoPeopleMatchFilters,
   } = usePeople();
 
   return (
@@ -20,7 +21,7 @@ export const PeoplePage: React.FC = () => {
 
       <div className="block">
         <div className="columns is-desktop is-flex-direction-row-reverse">
-          {areTherePeopleFromServer && (
+          {arePeopleLoaded && (
             <div className="column is-7-tablet is-narrow-desktop">
               <PeopleFilters />
             </div>
@@ -28,21 +29,21 @@ export const PeoplePage: React.FC = () => {
 
           <div className="column">
             <div className="box table-container">
-              {isLoading ? (
-                <Loader />
-              ) : errorMessage ? (
+              {isLoading && <Loader />}
+              {hasErrorMessage && (
                 <p data-cy="peopleLoadingError" className="has-text-danger">
                   {errorMessage}
                 </p>
-              ) : areThereNoPeopleFromServer ? (
+              )}
+              {areNoPeopleFromServer && (
                 <p data-cy="noPeopleMessage">
                   There are no people on the server
                 </p>
-              ) : areThereNoPeopleMatchingTheSearchParams ? (
-                <p>There are no people matching the current search criteria</p>
-              ) : (
-                <PeopleTable people={filteredSortedPeople} />
               )}
+              {areNoPeopleMatchFilters && (
+                <p>There are no people matching the current search criteria</p>
+              )}
+              {arePeopleLoaded && <PeopleTable people={filteredSortedPeople} />}
             </div>
           </div>
         </div>

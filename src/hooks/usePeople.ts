@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Person } from '../types/Person';
 import { getPeople } from '../api';
 
-const getFilterPeople = (
+const getFilteredPeople = (
   people: Person[],
   filters: {
     query: string;
@@ -103,43 +103,31 @@ export const usePeople = () => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const { areThereNoPeopleFromServer, areTherePeopleFromServer } =
-    useMemo(() => {
-      const arePeopleLoaded = !isLoading && !errorMessage;
+  const filteredPeople = getFilteredPeople(people, {
+    query,
+    sex,
+    centuries,
+  });
 
-      return {
-        areThereNoPeopleFromServer: arePeopleLoaded && !Boolean(people.length),
-        areTherePeopleFromServer: arePeopleLoaded && Boolean(people.length),
-      };
-    }, [errorMessage, isLoading, people.length]);
+  const filteredSortedPeople = getSortedPeople(filteredPeople, {
+    sortBy,
+    sortOrder,
+  });
 
-  const { filteredSortedPeople, areThereNoPeopleMatchingTheSearchParams } =
-    useMemo(() => {
-      const filteredPeople = getFilterPeople(people, {
-        query,
-        sex,
-        centuries,
-      });
-
-      const innerFilteredSortedPeople = getSortedPeople(filteredPeople, {
-        sortBy,
-        sortOrder,
-      });
-
-      return {
-        filteredSortedPeople: innerFilteredSortedPeople,
-        areThereNoPeopleMatchingTheSearchParams: !Boolean(
-          filteredPeople.length,
-        ),
-      };
-    }, [people, query, sex, sortBy, sortOrder, centuries]);
+  const hasErrorMessage = !isLoading && errorMessage;
+  const arePeopleLoaded = !isLoading && Boolean(people.length);
+  const areNoPeopleFromServer =
+    !isLoading && !errorMessage && !Boolean(people.length);
+  const areNoPeopleMatchFilters =
+    !isLoading && !errorMessage && !Boolean(filteredSortedPeople.length);
 
   return {
     filteredSortedPeople,
     isLoading,
     errorMessage,
-    areThereNoPeopleFromServer,
-    areTherePeopleFromServer,
-    areThereNoPeopleMatchingTheSearchParams,
+    hasErrorMessage,
+    arePeopleLoaded,
+    areNoPeopleFromServer,
+    areNoPeopleMatchFilters,
   };
 };

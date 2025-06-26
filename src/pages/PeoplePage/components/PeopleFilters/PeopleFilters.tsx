@@ -2,13 +2,13 @@ import classNames from 'classnames';
 import { SearchLink } from '../../../../components/SearchLink';
 import { useSearchParams } from 'react-router-dom';
 
-const sexFilterLinks = [
+const SEX_FILTER_LINKS = [
   { id: 1, title: 'All', sex: null },
   { id: 2, title: 'Male', sex: 'm' },
   { id: 3, title: 'Female', sex: 'f' },
 ];
 
-const centuriesFilterLink = ['16', '17', '18', '19', '20'];
+const CENTURIES_FILTER_LINKS = ['16', '17', '18', '19', '20'];
 
 export const PeopleFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,7 +33,7 @@ export const PeopleFilters = () => {
       <p className="panel-heading">Filters</p>
 
       <p className="panel-tabs" data-cy="SexFilter">
-        {sexFilterLinks.map(link => (
+        {SEX_FILTER_LINKS.map(link => (
           <SearchLink
             key={link.id}
             params={{ sex: link.sex }}
@@ -64,7 +64,7 @@ export const PeopleFilters = () => {
       <div className="panel-block">
         <div className="level is-flex-grow-1 is-mobile" data-cy="CenturyFilter">
           <div className="level-left">
-            {centuriesFilterLink.map(link => (
+            {CENTURIES_FILTER_LINKS.map(link => (
               <SearchLink
                 key={link}
                 params={{

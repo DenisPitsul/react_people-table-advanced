@@ -10,6 +10,8 @@ type Props = {
 };
 
 export const PersonRow: React.FC<Props> = ({ person, people }) => {
+  const { slug, sex, born, died, motherName, fatherName } = person;
+
   const { personSlug } = useParams();
 
   const mother = person.motherName
@@ -19,39 +21,33 @@ export const PersonRow: React.FC<Props> = ({ person, people }) => {
     ? people.find(p => p.name === person.fatherName)
     : null;
 
+  const noParentStr = '-';
+
   return (
     <tr
       data-cy="person"
       className={classNames({
-        'has-background-warning': personSlug === person.slug,
+        'has-background-warning': personSlug === slug,
       })}
     >
       <td>
         <PersonLink person={person} />
       </td>
 
-      <td>{person.sex}</td>
-      <td>{person.born}</td>
-      <td>{person.died}</td>
+      <td>{sex}</td>
+      <td>{born}</td>
+      <td>{died}</td>
 
       <td>
-        {mother ? (
-          <PersonLink person={mother} />
-        ) : person.motherName ? (
-          person.motherName
-        ) : (
-          '-'
-        )}
+        {mother && <PersonLink person={mother} />}
+        {!mother && motherName}
+        {!mother && !motherName && noParentStr}
       </td>
 
       <td>
-        {father ? (
-          <PersonLink person={father} />
-        ) : person.fatherName ? (
-          person.fatherName
-        ) : (
-          '-'
-        )}
+        {father && <PersonLink person={father} />}
+        {!father && fatherName}
+        {!father && !fatherName && noParentStr}
       </td>
     </tr>
   );
