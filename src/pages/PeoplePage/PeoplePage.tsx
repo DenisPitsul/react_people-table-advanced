@@ -43,7 +43,9 @@ export const PeoplePage: React.FC = () => {
               {areNoPeopleMatchFilters && (
                 <p>There are no people matching the current search criteria</p>
               )}
-              {arePeopleLoaded && <PeopleTable people={filteredSortedPeople} />}
+              {arePeopleLoaded && !areNoPeopleMatchFilters && (
+                <PeopleTable people={filteredSortedPeople} />
+              )}
             </div>
           </div>
         </div>

@@ -119,7 +119,10 @@ export const usePeople = () => {
   const areNoPeopleFromServer =
     !isLoading && !errorMessage && !Boolean(people.length);
   const areNoPeopleMatchFilters =
-    !isLoading && !errorMessage && !Boolean(filteredSortedPeople.length);
+    !isLoading &&
+    !errorMessage &&
+    Boolean(people.length) &&
+    !Boolean(filteredSortedPeople.length);
 
   return {
     filteredSortedPeople,
