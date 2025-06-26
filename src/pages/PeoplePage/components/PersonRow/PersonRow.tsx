@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { Person } from '../../../../types/Person';
 import { PersonLink } from '../PersonLink';
 
+const noParentStr = '-';
+
 type Props = {
   person: Person;
   people: Person[];
@@ -20,8 +22,6 @@ export const PersonRow: React.FC<Props> = ({ person, people }) => {
   const father = person.fatherName
     ? people.find(p => p.name === person.fatherName)
     : null;
-
-  const noParentStr = '-';
 
   return (
     <tr
